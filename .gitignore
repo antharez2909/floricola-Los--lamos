@@ -1,0 +1,24 @@
+# Python environments and generated files
+.venv/
+.venv-*/
+venv/
+backend/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Secrets and user-uploaded data
+.env
+.env.*
+!.env.example
+!**/.env.example
+backend/.env
+backend/uploads/
+**/uploads/
+
+# Flutter and Dart generated files
+app_flutter/.dart_tool/
+app_flutter/.flutter-plugins-dependencies
+app_flutter/.packages
+app_flutter/build/
+app_flutter/coverage/

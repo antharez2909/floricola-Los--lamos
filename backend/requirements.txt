@@ -1,0 +1,6 @@
+Flask==3.1.2
+Flask-Cors>=6.0
+mysql-connector-python>=9.0
+python-dotenv>=1.0
+reportlab>=4.0
+pytest>=8.0

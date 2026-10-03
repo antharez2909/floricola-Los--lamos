@@ -1,0 +1,47 @@
+name: app_flutter
+description: "Un nuevo proyecto de Flutter."
+publish_to: 'none' # Evita que el paquete se publique accidentalmente en pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+
+# Dependencias principales de tu aplicación
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Paquetes de íconos y utilidades
+  cupertino_icons: ^1.0.8
+  http: ^1.6.0
+  shared_preferences: ^2.5.5
+  google_fonts: ^9.0.0
+  image_picker: ^1.2.3
+
+# Dependencias de desarrollo y herramientas de pruebas
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+# Anula dependencias conflictivas para evitar errores con material_ui / cupertino_ui
+dependency_overrides:
+  material_ui: null
+  cupertino_ui: null
+
+# Configuración específica de Flutter
+flutter:
+  uses-material-design: true
+
+  # Para agregar imágenes u otros recursos a tu aplicación, descomenta las siguientes líneas:
+  # assets:
+  #   - assets/images/
+
+  # Para agregar fuentes personalizadas, descomenta y configura esta sección:
+  # fonts:
+  #   - family: MiFuentePersonalizada
+  #     fonts:
+  #       - asset: fonts/MiFuente-Regular.ttf
+  #       - asset: fonts/MiFuente-Bold.ttf
+  #         weight: 700

@@ -1,0 +1,10 @@
+# Credenciales reales: nunca se suben a GitHub (usa .env.example como plantilla)
+.env
+
+# Fotos de comprobantes de transferencia que suben los clientes:
+# son datos de otras personas, no código del proyecto.
+uploads/
+
+# Archivos que genera Python al ejecutar
+__pycache__/
+*.pyc
