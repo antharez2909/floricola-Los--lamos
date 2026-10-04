@@ -48,16 +48,13 @@ Dos carpetas:
    en MySQL, ejecuta `UPDATE usuarios SET rol = 'admin' WHERE correo = 'tu_correo@ejemplo.com';`
    (el mismo paso está explicado al final de `schema_inicial.sql`).
 
-> **Seguridad:** la clave de `root` de MySQL estaba escrita en `database.py` y subida a GitHub.
-> Cámbiala en MySQL aunque ya no esté en el código: el historial de Git la conserva.
-
 ## Publicar en internet con Railway y GitHub Pages
 
 Esta guía publica la API Flask y MySQL en Railway, y la app Flutter Web en GitHub Pages. XAMPP puede apagarse después de migrar la base de datos y comprobar que la app pública funciona. Los servicios de alojamiento pueden requerir un plan de pago.
 
 ### 1. Preparar la base de datos
 
-Antes de desplegar, cambia la contraseña de MySQL que se usó mientras trabajabas localmente: una versión anterior quedó registrada en el historial de GitHub. Si reutilizaste esa contraseña en otro servicio, cámbiala también. No introduzcas credenciales en archivos del repositorio ni las compartas por chat.
+Para el backend público, usa las credenciales del servicio MySQL de Railway; no reutilices ni publiques las credenciales locales de XAMPP. Guarda una copia segura de cualquier respaldo y nunca subas archivos `.env` a GitHub.
 
 Si ya tienes clientes, productos o pedidos en XAMPP, primero exporta la base `floricola_db` desde phpMyAdmin o MySQL Workbench y conserva una copia segura. Esa copia se importará en el MySQL de Railway. No ejecutes `schema_inicial.sql` sobre una base que ya contiene esos datos; úsalo solo para crear una base nueva, y continúa con las migraciones que correspondan en orden.
 
