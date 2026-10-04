@@ -31,6 +31,15 @@ def test_listas_estan_registradas_y_exigen_sesion():
     assert pedidos.status_code == 401
 
 
+def test_status_responde_sin_conectarse_a_mysql():
+    app = _crear_app()
+
+    respuesta = app.test_client().get("/api/status")
+
+    assert respuesta.status_code == 200
+    assert respuesta.get_json() == {"status": "ok"}
+
+
 def test_clientes_paginados_solo_para_admin(monkeypatch):
     usuario = {
         "id": 1,

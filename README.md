@@ -51,6 +51,48 @@ Dos carpetas:
 > **Seguridad:** la clave de `root` de MySQL estaba escrita en `database.py` y subida a GitHub.
 > Cámbiala en MySQL aunque ya no esté en el código: el historial de Git la conserva.
 
+## Publicar en internet con Railway y GitHub Pages
+
+Esta guía publica la API Flask y MySQL en Railway, y la app Flutter Web en GitHub Pages. XAMPP puede apagarse después de migrar la base de datos y comprobar que la app pública funciona. Los servicios de alojamiento pueden requerir un plan de pago.
+
+### 1. Preparar la base de datos
+
+Antes de desplegar, cambia la contraseña de MySQL que se usó mientras trabajabas localmente: una versión anterior quedó registrada en el historial de GitHub. Si reutilizaste esa contraseña en otro servicio, cámbiala también. No introduzcas credenciales en archivos del repositorio ni las compartas por chat.
+
+Si ya tienes clientes, productos o pedidos en XAMPP, primero exporta la base `floricola_db` desde phpMyAdmin o MySQL Workbench y conserva una copia segura. Esa copia se importará en el MySQL de Railway. No ejecutes `schema_inicial.sql` sobre una base que ya contiene esos datos; úsalo solo para crear una base nueva, y continúa con las migraciones que correspondan en orden.
+
+### 2. Crear el backend y MySQL en Railway
+
+1. Crea un proyecto en Railway y añade un servicio MySQL.
+2. Añade un servicio desde el repositorio `antharez2909/floricola-Los--lamos`. Configura el directorio raíz como `/backend` y el comando de inicio como:
+
+   ```text
+   gunicorn --bind 0.0.0.0:$PORT app:app
+   ```
+
+3. En las variables del servicio Flask, enlaza las variables de conexión con el servicio MySQL. Sustituye `MySQL` por el nombre exacto del servicio en tu proyecto:
+
+   ```text
+   DB_HOST=${{MySQL.MYSQLHOST}}
+   DB_PORT=${{MySQL.MYSQLPORT}}
+   DB_USER=${{MySQL.MYSQLUSER}}
+   DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
+   ```
+
+4. Configura también `DB_NAME=floricola_db`, `SECRET_KEY` con un valor aleatorio largo, `FLASK_DEBUG=0`, `UPLOAD_FOLDER_BASE=/data/uploads` y `CORS_ALLOWED_ORIGINS=https://antharez2909.github.io`. Añade las variables `SMTP_*` si necesitas verificación y recuperación por correo.
+5. Crea un volumen persistente para el servicio Flask con punto de montaje `/data`. Sin ese volumen, las imágenes de productos y los comprobantes podrían perderse al reemplazar el contenedor.
+6. En Railway, genera un dominio público para Flask y comprueba que `https://TU-DOMINIO/api/status` responda `{"status":"ok"}`.
+7. Importa en el MySQL remoto el respaldo de tu base local; o, si empiezas desde cero, ejecuta los scripts SQL del apartado de instalación. Para conectar una herramienta externa a MySQL, habilita temporalmente el acceso TCP público de la base y usa los datos de conexión que muestra Railway. Protege esos datos y desactiva el acceso público cuando termines si ya no lo necesitas.
+
+### 3. Publicar Flutter Web en GitHub Pages
+
+1. En GitHub, abre **Settings → Pages** y selecciona **GitHub Actions** como origen de publicación.
+2. En **Settings → Secrets and variables → Actions → Variables**, crea `API_BASE_URL` con la URL HTTPS del backend de Railway, sin una barra final, por ejemplo `https://tu-api.up.railway.app`.
+3. Abre la pestaña **Actions**, selecciona **Deploy Flutter Web** y elige **Run workflow**.
+4. Al terminar la acción, GitHub mostrará la URL pública de la aplicación, normalmente `https://antharez2909.github.io/floricola-Los--lamos/`.
+
+La app Android también debe compilarse con la URL del backend desplegado mediante `--dart-define=API_BASE_URL=https://tu-api.up.railway.app`.
+
 ## 2. App Flutter
 
 1. Crea un proyecto Flutter nuevo (así se genera la carpeta `android/`):

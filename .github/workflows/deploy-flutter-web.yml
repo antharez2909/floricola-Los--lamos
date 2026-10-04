@@ -1,0 +1,59 @@
+name: Deploy Flutter Web
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build Flutter Web
+        working-directory: app_flutter
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          if [ -z "$API_BASE_URL" ]; then
+            echo "Configure the API_BASE_URL repository variable before deploying."
+            exit 1
+          fi
+          flutter pub get
+          flutter build web --release \
+            --base-href "/${REPOSITORY_NAME}/" \
+            --dart-define="API_BASE_URL=${API_BASE_URL}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: app_flutter/build/web
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

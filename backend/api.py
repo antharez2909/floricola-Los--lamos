@@ -57,6 +57,11 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 TOKEN_DURACION = 7 * 24 * 3600  # 7 días
 
 
+@api_bp.get("/status")
+def estado_servicio():
+    return jsonify({"status": "ok"})
+
+
 # Imágenes públicas de los productos del catálogo. No contienen datos
 # personales ni comprobantes de pago, por eso pueden ser servidas al
 # catálogo sin exigir el token de autenticación.

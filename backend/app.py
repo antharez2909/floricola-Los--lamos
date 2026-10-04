@@ -25,6 +25,11 @@ app = Flask(__name__)
 
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
+cors_allowed_origins = [
+    origin.strip()
+    for origin in os.environ.get("CORS_ALLOWED_ORIGINS", "*").split(",")
+    if origin.strip()
+]
 
 # ==================================================
 # CONFIGURACIÓN CORS
@@ -36,7 +41,7 @@ CORS(
     app,
     resources={
         r"/api/*": {
-            "origins": "*",
+            "origins": cors_allowed_origins,
         }
     },
     supports_credentials=False,
@@ -47,10 +52,14 @@ CORS(
 # CONFIGURACIÓN DE ARCHIVOS
 # ==================================================
 
-app.config["UPLOAD_FOLDER_BASE"] = os.path.join(
+upload_folder_default = os.path.join(
     os.path.dirname(__file__),
     "uploads",
 )
+upload_folder_base = os.environ.get("UPLOAD_FOLDER_BASE", upload_folder_default)
+if not os.path.isabs(upload_folder_base):
+    upload_folder_base = os.path.join(os.path.dirname(__file__), upload_folder_base)
+app.config["UPLOAD_FOLDER_BASE"] = os.path.abspath(upload_folder_base)
 
 app.config["UPLOAD_FOLDER"] = os.path.join(
     app.config["UPLOAD_FOLDER_BASE"],
