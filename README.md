@@ -6,7 +6,7 @@ Florícola Los Álamos es una aplicación digital para apoyar la gestión y vent
 
 La aplicación también incluye herramientas administrativas para gestionar productos, clientes, pedidos y pagos. Está desarrollada con Flutter, una API en Flask y una base de datos MySQL, y contempla su uso en Flutter Web y Android.
 
-Durante su desarrollo se utilizaron herramientas de inteligencia artificial como apoyo en aproximadamente un 60 % del trabajo. La IA se empleó como asistencia en el proceso de creación; la aplicación no ofrece funciones de inteligencia artificial a sus usuarios.
+Durante su desarrollo se utilizaron herramientas de inteligencia artificial como apoyo en aproximadamente un 50 % del trabajo. La IA se empleó como asistencia en el proceso de creación; la aplicación no ofrece funciones de inteligencia artificial a sus usuarios.
 
 Esta versión es una base funcional para el emprendimiento y podrá evolucionar con futuras actualizaciones, como nuevos medios de pago, reportes de ventas y mejoras de experiencia, según las necesidades del negocio.
 
